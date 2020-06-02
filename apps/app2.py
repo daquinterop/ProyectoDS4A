@@ -15,7 +15,7 @@ layout = html.Div([
     html.Br(),
     dcc.Link('Navigate to "/"', href='/'),
     html.Br(),
-    dcc.Link('Navigate to "/page-1"', href='/page-1'),
+    dcc.Link('Navigate to app1', href='/apps/app1'),
 ])
 
 # Page 2 callbacks
