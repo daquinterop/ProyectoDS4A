@@ -28,7 +28,17 @@ models_layout = html.Div([
     dbc.Row([
         # Elemento Aside, lo que está en la parte izquierda la página
         dbc.Col([
+            # Elemento aside del modelo
             html.Div(id='model-aside', className='interactive_container'),
+            # Elemento para subir el dataset
+            html.H5('Suba su Dataset para ser clasificado'),
+            dcc.Markdown("""
+                El dataset debe estar en formato `csv` y contener las siguientes columnas, con una fila para cada individuo:
+
+                * Columna 1
+                * Columna 2
+                * Columna 3
+            """),
             html.Div([
                 dcc.Upload(
                     id='upload-image',
@@ -41,7 +51,7 @@ models_layout = html.Div([
                 ),
                 dbc.Button("Clasificar", color="success", id='classif-button', block=True)
             ], className='interactive_container')
-        ], width={'size': 3}),
+        ], width={'size': 3},className='aside-element'),
 
         # Contenido principal de la página
         dbc.Col([
@@ -63,7 +73,7 @@ def switch_tab(at):
     if at == "knn":
         return knn.layout, knn.aside
     elif at == 'random-forest':
-        return html.Div("Random Forest"), knn.aside
+        return html.Div("Random Forest"), html.Div('Que no')
     else:
         return html.P("This shouldn't ever be displayed..."), html.Div('Que no')
 

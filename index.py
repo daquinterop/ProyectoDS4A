@@ -16,22 +16,26 @@ app.layout = html.Div([
         dbc.Col(
             dbc.NavbarSimple([ # Barra de navegación
                 dbc.Row([
-                        dbc.Col(dbc.NavItem(dbc.NavLink("Modelos", href="/models")), ),
-                        dbc.Col(dbc.NavItem(dbc.NavLink("Referencias", href="/reference")),),
-                        dbc.Col(dbc.NavItem(dbc.NavLink("Acerca del problema", href="/about")), ),
+                    dbc.Col(dbc.NavItem(dbc.NavLink("EDA", href="/eda")), ),
+                    dbc.Col(dbc.NavItem(dbc.NavLink("Modelos", href="/models")), ),
+                    dbc.Col(dbc.NavItem(dbc.NavLink("Referencias", href="/reference")),),
+                    dbc.Col(dbc.NavItem(dbc.NavLink("Acerca del problema", href="/about")), ),
                 ], no_gutters=True)],
                 color="dark",
                 dark=True,
                 brand="Caracterización de la población reincidente en Colombia",
-                brand_href="/"
+                brand_href="/",
+                # fixed='top'
             ),
-        width={'size': 10, "offset": 1}),
+        width={'size': 12, "offset": 0}),
+    ]),
+    dbc.Row([
         dbc.Col(
             html.Div(id='page-content'),
             width={'size': 10, 'offset': 1},
-            # id='page-content'
         )
-    ]), 
+    ])
+
 ], className='background')
 
 

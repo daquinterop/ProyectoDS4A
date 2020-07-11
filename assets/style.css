@@ -13,30 +13,16 @@ div .background {
     /* z-index:1000; */
 }
 
-div .second_level {
-    width: 90%;
-    align-items: center;
-    justify-content: center;
-    /* position:fixed; */
-    margin-bottom: 30px;
-    height:100%;
-}
-
-div .body{
-    display: inline;
-    padding: 30px 40px 0px 40px;
-}
-
-
 .page_content{
     /* width: 100%;
     float: right;
     padding: inherit; */
     background-color: rgb(255, 255, 255, 1);
     /* height: 100%; */
-    border-radius: 10px 10px 10px 10px;
+    /* border-radius: 10px 10px 10px 10px; */
     /* margin: 10px; */
     padding: 10px;
+    text-align: center;
 }
 
 div .interactive_container {
@@ -62,28 +48,6 @@ div .content_box {
     padding: 20px;
     margin: 40px 10px 10px 10px;
 }
-header {
-    background-color: rgb(255,201,0);
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px 10px 10px 10px;
-    display: flex;
-}
-
-aside {
-    /* max-width: 25%; */
-    background-color: rgb(255, 255, 255, 1);
-    width: 100%;
-    float: left;
-    height: 100%;
-    padding: inherit;
-    margin: 10px;
-    border-radius: 10px 10px 10px;
-    overflow-y: scroll;
-}
 
 .header_image {
     float: left;
@@ -91,14 +55,18 @@ aside {
     margin: 0px 100px 0px 0px;
 }
 
-/* Fuentes */
-h1 {
-    font-size: 50px;
-    font-weight: bold;
-    color: white;
+.graph{
+    background-color: rgb(255, 255, 255, 0.9);
 }
 
-.graph{
-    background-color: rgb(255, 255, 255, 0.1);
+
+.aside-element{
+    background-color: rgb(255, 255, 255, 0.7);
+    padding: 10px;
+    
+}
+
+.aside-element h3, p{
+    color: black;
 }
 
