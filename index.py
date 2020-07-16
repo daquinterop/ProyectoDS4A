@@ -7,7 +7,7 @@ from dash.dependencies import Input, Output
 from app import app
 import datasets as data
 import graphs
-from models import models_layout
+from apps.models import models_layout
 
 # Definición del layout, es decir, la página en sí
 app.layout = html.Div([
