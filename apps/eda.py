@@ -6,7 +6,8 @@ from dash.dependencies import Input, Output, State
 from app import app
 import base64
 import os
-
+import lorem
+import graphs
 
 delito_tab = html.Div([
     dbc.Row([
@@ -40,6 +41,16 @@ delito_tab = html.Div([
                     time is reduced for the next repeat offense events. It can be said that there is no difference 
                     between having or no children under 18.
             """])
+        ], width={'size': 4}, className='aside-element', align='center'),
+    ]),
+    dbc.Row([
+        dbc.Col([
+            html.Div(className='div-line'),
+            dcc.Graph(figure=graphs.load_json_figure('plots/figure.json'))
+        ], width={'size': 8},className='page_content'),
+        dbc.Col([
+            html.H3([lorem.sentence()]),
+            html.P([lorem.paragraph()])
         ], width={'size': 4}, className='aside-element', align='center'),
     ]),
 ])
