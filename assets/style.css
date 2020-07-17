@@ -49,6 +49,11 @@ div .content_box {
     margin: 40px 10px 10px 10px;
 }
 
+div .div-line {
+    border-top: 2px solid rgb(132,132,132);
+    margin: 0px 60px 60px 60px;
+}
+
 .header_image {
     float: left;
     height: 80px;
@@ -63,7 +68,6 @@ div .content_box {
 .aside-element{
     background-color: rgb(255, 255, 255, 0.7);
     padding: 10px;
-    
 }
 
 .aside-element h3, p{

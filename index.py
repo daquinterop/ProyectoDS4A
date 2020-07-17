@@ -8,6 +8,7 @@ from app import app
 import datasets as data
 import graphs
 from apps.models import models_layout
+from apps.eda import eda_layout
 
 # Definición del layout, es decir, la página en sí
 app.layout = html.Div([
@@ -49,8 +50,8 @@ def display_page(pathname):
         return html.Div('Contenido de acerca')
     elif pathname == '/reference':
         return html.Div('Contenido de referencias')
-    elif pathname == '/':
-        return models_layout
+    elif (pathname == '/') or (pathname == '/eda'):
+        return eda_layout
     else:
         return html.Div([html.H1('Error hijueputa!!')])
 

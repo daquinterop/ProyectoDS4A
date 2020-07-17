@@ -51,7 +51,7 @@ models_layout = html.Div([
                 ),
                 dbc.Button("Clasificar", color="success", id='classif-button', block=True)
             ], className='interactive_container')
-        ], width={'size': 3},className='aside-element'),
+        ], width={'size': 4},className='aside-element'),
 
         # Contenido principal de la página
         dbc.Col([
@@ -59,7 +59,7 @@ models_layout = html.Div([
             html.Div(id='model-page'),
             # Plot del dataset ya clasificado.
             html.Span(id='plot-new-dataset')
-        ], width={'size': 9}, className='page_content')
+        ], width={'size': 8}, className='page_content')
     ])
 ])
 
