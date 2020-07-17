@@ -39,6 +39,7 @@ app.layout = html.Div([
 
 ], className='background')
 
+server = app.server
 
 # Callback para el cambio de página en la barra de navegación
 @app.callback(Output('page-content', 'children'),
