@@ -8,12 +8,57 @@ import base64
 import os
 import lorem
 import graphs
+import datasets
+
+data = datasets.data
 
 delito_tab = html.Div([
     dbc.Row([
         # Espacio para el gráfico
         dbc.Col([
-            html.Img(src=app.get_asset_url('plot_test.png'))
+            dcc.Graph(
+                figure=graphs.plot_kde(data, 'min_pena', 'num_reincidencia', [1, 2, 3]),
+                id='dist-penas',
+                # className='figure'
+            )
+        ], width={'size': 8}, className='page_content'),
+        dbc.Col([
+            html.H3(["Gravedad del delito según el número de reincidencia"]),
+            html.H6('Seleccione la reincidencia'),
+            dcc.Dropdown(
+                options=[
+                    {'label': 'Pena mínima', 'value': 'min_pena'},
+                    {'label': 'Pena media', 'value': 'avg_pena'},
+                    {'label': 'Pena máxima', 'value': 'max_pena'},
+                    {'label': 'Gravedad del delito', 'value': 'gravedad_delito'}
+                ],
+                value='min_pena',
+                id='dd-gravedad-delito'
+            ),
+            html.H6('Seleccione el indicador de gravedad de pena'),
+            dcc.Dropdown(
+                options=[
+                    {'label': 'Primera', 'value': 1},
+                    {'label': 'Segunda', 'value': 2},
+                    {'label': 'Tercera', 'value': 3},
+                    {'label': 'Cuarta', 'value': 4},
+                    {'label': 'Quinta', 'value': 5},
+                    {'label': 'Sexta', 'value': 6},
+                ],
+                value=[1, 2, 3],
+                multi=True,
+                id='dd-reincidencia'
+            ), 
+            html.P(["""
+
+            """])
+        ], width={'size': 4}, className='aside-element', align='center')
+    ]),
+    dbc.Row([
+        # Espacio para el gráfico
+        dbc.Col([
+            html.Div(className='div-line'),
+            html.Img(src=app.get_asset_url('plot_test.png'), )
         ], width={'size': 8}, className='page_content'),
         dbc.Col([
             html.H3(["Movimiento a través de diferentes delitos"]),
@@ -71,3 +116,10 @@ eda_layout = html.Div([
     # Contenido
     
 ])
+
+
+@app.callback(Output('dist-penas', 'figure'),
+              [Input('dd-gravedad-delito', 'value'),
+              Input('dd-reincidencia', 'value')])
+def plot_dist_penas(gravedad, reincidencia):
+    return graphs.plot_kde(data, gravedad, 'num_reincidencia', reincidencia)

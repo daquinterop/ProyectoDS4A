@@ -12,3 +12,5 @@ df = pd.DataFrame(
     },
 )
 
+data = pd.read_pickle('/home/diego/Documents/DS4A/Proyecto/DataFrame_4.pkl')
+
