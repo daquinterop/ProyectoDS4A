@@ -45,6 +45,41 @@ def plot_kde(data, column, filter_column, filter_values):
     return fig
 
 
+def step_hist(data, column, filter_column, filter_values, xlabel_function):
+    traces = []
+    x_max = data[column].max()
+    for value in filter_values:
+        x = data.loc[(data[filter_column] == value) & (~data[column].isna()), column]
+        x = list(x)
+        x += [0, x_max]
+        binned = np.histogram(x, bins=25, density=True)
+        plot_y = np.cumsum(binned[0])
+
+        # Line
+        traces.append(go.Scatter(
+            x=binned[1],
+            y=plot_y,
+            mode='lines',
+            name=value,
+            hoverinfo='all',
+            )
+        )
+    layout = dict(
+        legend=dict(
+            y=0.5,
+            traceorder='reversed',
+            font=dict(
+                size=16
+            ),
+        ),
+        xaxis=dict(title=xlabel_function(column))
+    )
+    # Make figure
+    fig = go.Figure(data=traces, layout=layout)
+    return fig
+
+
+
 def recidivsm_map_plot(recidivism_index, geojson, index):
     if index != 'index':
         color_scale = 'RdYlGn'
@@ -94,5 +129,56 @@ def delito_treemap(data, reincidencia):
                     color_continuous_scale='RdYlBu_r', range_color=(0, 30)
                     )
     return fig
+
+
+def age_kde(data, filter_values):
+    column = 'edad'
+    filter_column='num_reincidencia'
+    data_list = []
+    label = []
+    for value in filter_values:
+        data_tmp = data.loc[data[filter_column] == value, column].values
+        data_list.append(data_tmp[~np.isnan(data_tmp)])
+        label.append(value)
+    fig = ff.create_distplot(data_list, label, show_hist=False, show_rug=False)
+    fig.update_layout(
+        margin=go.layout.Margin(
+            l=80, #left margin
+            r=80, #right margin
+            b=30, #bottom margin
+            t=30  #top margin
+        ),
+        xaxis_title='Edad',
+        height=600
+    )
+    return fig
+
+
+def age_kde_binary(data, filter_column):
+    si_no = {0:'No', 1:'Sí'}
+    column = 'edad'
+    data_list = []
+    label = []
+    for value in data[filter_column].unique():
+        data_tmp = data.loc[data[filter_column] == value, column].values
+        data_list.append(data_tmp[~np.isnan(data_tmp)])
+        if not isinstance(value, str):
+            label.append(si_no.get(value, str(value)))
+        else:
+            label.append(value)
+    fig = ff.create_distplot(data_list, label, show_hist=False, show_rug=False)
+    fig.update_layout(
+        margin=go.layout.Margin(
+            l=80, #left margin
+            r=80, #right margin
+            b=30, #bottom margin
+            t=30  #top margin
+        ),
+        xaxis_title='Edad',
+        legend={'title': filter_column},
+        height=600
+    )
+    return fig
+
 
 table = dbc.Table.from_dataframe(data.df, striped=True, bordered=True, hover=True)

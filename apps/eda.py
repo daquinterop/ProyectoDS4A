@@ -14,13 +14,19 @@ data = datasets.data
 colombia_dptos_geo = datasets.colombia_dptos_geo
 recidivism_index = datasets.recidivism_index
 
+def xlabel_step_hist(xlabel):
+    if 'pena' in xlabel:
+        return 'Duración de la pena (años)'
+    else:
+        return 'Gravedad del delito (Mayor es más grave)'
+
 delito_tab = html.Div([
     # Distribución delito por reincidencia
     dbc.Row([
         # Espacio para el gráfico
         dbc.Col([
             dcc.Graph(
-                figure=graphs.plot_kde(data, 'min_pena', 'num_reincidencia', [1, 2, 3]),
+                figure=graphs.step_hist(data, 'min_pena', 'num_reincidencia', [1, 2, 3], xlabel_step_hist),
                 id='dist-penas',
                 # className='figure'
             )
@@ -33,7 +39,7 @@ delito_tab = html.Div([
                     {'label': 'Pena mínima', 'value': 'min_pena'},
                     {'label': 'Pena media', 'value': 'avg_pena'},
                     {'label': 'Pena máxima', 'value': 'max_pena'},
-                    {'label': 'Gravedad del delito', 'value': 'gravedad_delito'}
+                    # {'label': 'Gravedad del delito', 'value': 'gravedad_delito'}
                 ],
                 value='min_pena',
                 id='dd-gravedad-delito'
@@ -46,20 +52,31 @@ delito_tab = html.Div([
                     {'label': 'Tercera', 'value': 3},
                     {'label': 'Cuarta', 'value': 4},
                     {'label': 'Quinta', 'value': 5},
-                    {'label': 'Sexta', 'value': 6},
                 ],
                 value=[1, 2, 3],
                 multi=True,
                 id='dd-reincidencia'
             ), 
-            html.P(["""
+            html.Br(),
+            dcc.Markdown("""
+                Los delitos más graves tienen castigos más severos, es decir, una mayor duración de la pena.
+                El gráfico de la izquierda muestra la distribución acumulada de la duración de la pena (mínima,
+                promedio y máxima) según el número de la reincidencia. Estas penas fueron obtenidas del código
+                penal colombiano.
 
-            """])
+                En este gráfico, si la curva está por encima de otra, significa que la población que representa esa curva
+                (primeros reincidentes, segundos reincidentes, etc.) en general tiene penas más cortas, es decir que 
+                cometen delitos menos graves.
+
+                El análisis demuestra que en general, a medida que continúan reincidiendo, normalmente cometen delitos
+                que son "menos graves" (i.e. penas menos severas).
+            """)
         ], width={'size': 4}, className='aside-element', align='center')
     ]),
     # Treemap Delito
     dbc.Row([
         dbc.Col([
+            html.Div(className='div-line'),
             dcc.Graph(
                 figure=graphs.delito_treemap(data, 1),
                 id='treemap-delito',
@@ -80,8 +97,17 @@ delito_tab = html.Div([
                 ],
                 value=1,
                 id='dd-reincidencia-treemap'
-            ), 
-            dcc.Markdown(lorem.paragraph())
+            ),
+            html.Br(),
+            dcc.Markdown('''
+                El gráfico treemap permite establecer la proporción del total en un grupo. En este caso, muestra
+                la proporción de delitos cometidos dentro de una población que cometió una enésima reincidencia.
+                El tamaño del cuadro es proporcional a la cantiadad de personas que cometieron ese delito. El color
+                representa la gravedad del delito, donde azul son los menos graves, y rojo los más graves.
+
+                Se evidencia que los delitos al patrimonio económico son los más cometidos, en especial, el hurto.
+                A medida que reinciden, la proporción de hurto aumenta, y los delitos más graves disminuyen.
+            ''')
         ], width={'size': 4}, className='aside-element', align='center')
     ]),
     dbc.Row([
@@ -101,33 +127,90 @@ delito_tab = html.Div([
             """])
         ], width={'size': 4}, className='aside-element', align='center')
     ]),
+])
+
+
+edad_tab = html.Div([
     dbc.Row([
         # Espacio para el gráfico
         dbc.Col([
-            html.Div(className='div-line'),
-            html.Img(src=app.get_asset_url('plot_test2.png'))
-        ], width={'size': 8},className='page_content'),
+            dcc.Graph(id='edad_kde', figure=graphs.age_kde(data, [1]))
+        ], width={'size': 8}, className='page_content'),
         dbc.Col([
-            html.H3(['Evolución de las penas a través de las rencidencias']),
-            html.P(["""
-                The next boxplot graph shows repeat offense event number on the x-axis, and average imprisonment 
-                time for the crime on the y-axis. A distinction is made between having or no children under 18. 
-                It is found that for the first repeat offense the imprisonment time is higher, and that imprisonment
-                    time is reduced for the next repeat offense events. It can be said that there is no difference 
-                    between having or no children under 18.
+            html.H3(["Distribución de la edad según el número de reincidencia"]),
+            html.H6('Seleccione el número de la reincidencia'),
+            dcc.Dropdown(
+                options=[
+                    {'label': 'Primera', 'value': 1},
+                    {'label': 'Segunda', 'value': 2},
+                    {'label': 'Tercera', 'value': 3},
+                    {'label': 'Cuarta', 'value': 4},
+                    {'label': 'Quinta', 'value': 5},
+                    {'label': 'Sexta', 'value': 6},
+                ],
+                value=[1],
+                id='dd-edad-reincidencia',
+                multi=True  
+            ),
+            html.Br(),
+            dcc.Markdown(["""
+                No parece haber una diferencia sustancial en la edad para las diferentes reincidencias. La mayoría 
+                de los reincidentes tienen edades entre los 20 y los 40 años.
             """])
-        ], width={'size': 4}, className='aside-element', align='center'),
-    ]),
+        ], width={'size': 4}, className='aside-element', align='center')
+    ],align='center'), 
     dbc.Row([
+        # Espacio para el gráfico
         dbc.Col([
-            html.Div(className='div-line'),
-            dcc.Graph(figure=graphs.load_json_figure('plots/figure.json'))
-        ], width={'size': 8},className='page_content'),
+            dcc.Graph(id='edad_kde_bin', figure=graphs.age_kde_binary(data, 'genero'))
+        ], width={'size': 8}, className='page_content'),
         dbc.Col([
-            html.H3([lorem.sentence()]),
-            html.P([lorem.paragraph()])
-        ], width={'size': 4}, className='aside-element', align='center'),
-    ]),
+            html.H3(["Distribución de la edad según categorías"]),
+            html.H6('Seleccione la variable categórica'),
+            dcc.Dropdown(
+                options=[
+                    {'label': 'Tentativa', 'value': 'tentativa'},
+                    {'label': 'Agravado', 'value': 'agravado'},
+                    {'label': 'Calificado', 'value': 'calificado'},
+                    {'label': 'Género', 'value': 'genero'},
+                    {'label': 'Actividades de trabajo', 'value': 'actividades_trabajo'},
+                    {'label': 'Actividades de estudio', 'value': 'actividades_estudio'},
+                    {'label': 'Actividades de enseñanza', 'value': 'actividades_enseñanza'},
+                    {'label': 'Tiene hijos menores', 'value': 'hijos_menores'},
+                ],
+                value='genero',
+                id='dd-edad-bin',
+            ),
+            html.Br(),
+            dcc.Markdown(["""
+                En este gráfico se puede observar la distribución de la edad teniendo en cuenta diferentes variables
+                categóricas. Al revisar estas distribuciones, se aprecía alguna diferencia en la distribución cuando el
+                delito es calificado, según el género, según si realizó o no actividades de enseñanza o según si tiene o no
+                hijos menores.
+
+                Según esto, en promedio las personas que cometen un delito calificado son más jóvenes que quienes no. Igualmente,
+                en promedio los hombres reincidentes son más jóvenes que las mujeres reincidentes. En promedio, quienes realizan actividades
+                de enseñanza son de mayor edad que quienes no la realizan. Finalmente, los reincidentes con hijos son en promedio de 
+                mayor edad que los reincidentes sin hijos.
+            """])
+        ], width={'size': 4}, className='aside-element', align='center')
+    ],align='center'), 
+])
+
+
+basic_tab = html.Div([
+    dbc.Row([
+        # Espacio para el gráfico
+        dbc.Col([
+
+        ], width={'size': 8}, className='page_content'),
+        dbc.Col([
+            html.Br(),
+            dcc.Markdown(["""
+
+            """])
+        ], width={'size': 4}, className='aside-element', align='center')
+    ], className='parent-row', align='center')
 ])
 
 location_tab = html.Div([
@@ -197,7 +280,7 @@ eda_layout = html.Div([
         dbc.Col([
             dbc.Tabs([
                 dbc.Tab([delito_tab], label="Por delito", tab_id='delito'),
-                dbc.Tab(label="Por edad", tab_id='edad'),
+                dbc.Tab([edad_tab], label="Por edad", tab_id='edad'),
                 dbc.Tab(label="Por educación", tab_id='educacion'),
                 dbc.Tab(label="Por establecimiento carcelario", tab_id='establecimiento'),
                 dbc.Tab([location_tab], label="Por lugar de origen", tab_id='lugar'),
@@ -209,12 +292,12 @@ eda_layout = html.Div([
 ])
 
 
+
 @app.callback(Output('dist-penas', 'figure'),
               [Input('dd-gravedad-delito', 'value'),
               Input('dd-reincidencia', 'value')])
 def plot_dist_penas(gravedad, reincidencia):
-    return graphs.plot_kde(data, gravedad, 'num_reincidencia', reincidencia)
-
+    return graphs.step_hist(data, gravedad, 'num_reincidencia', reincidencia, xlabel_step_hist)
 
 @app.callback([Output('indexes-map', 'figure'),
                Output('indexes-scatter', 'figure')],
@@ -229,3 +312,15 @@ def plot_recidivism_index(index, label):
     [Input('dd-reincidencia-treemap', 'value')])
 def treemap_delito(reincidencia):
     return graphs.delito_treemap(data, reincidencia)
+
+
+@app.callback(Output('edad_kde', 'figure'),
+    [Input('dd-edad-reincidencia', 'value')])
+def kde_edad(reincidencia):
+    return graphs.age_kde(data, reincidencia)
+
+
+@app.callback(Output('edad_kde_bin', 'figure'),
+    [Input('dd-edad-bin', 'value')])
+def kde_edad_bin(column):
+    return graphs.age_kde_binary(data, column)
