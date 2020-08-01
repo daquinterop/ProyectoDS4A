@@ -9,6 +9,7 @@ import datasets as data
 import graphs
 from apps.models import models_layout
 from apps.eda import eda_layout
+from apps.team65 import team65_layout
 
 # Definición del layout, es decir, la página en sí
 app.layout = html.Div([
@@ -19,8 +20,8 @@ app.layout = html.Div([
                 dbc.Row([
                     dbc.Col(dbc.NavItem(dbc.NavLink("EDA", href="/eda")), ),
                     dbc.Col(dbc.NavItem(dbc.NavLink("Modelos", href="/models")), ),
-                    dbc.Col(dbc.NavItem(dbc.NavLink("Referencias", href="/reference")),),
-                    dbc.Col(dbc.NavItem(dbc.NavLink("Acerca del problema", href="/about")), ),
+                    dbc.Col(dbc.NavItem(dbc.NavLink("Team65", href="/team65")),),
+                    # dbc.Col(dbc.NavItem(dbc.NavLink("Acerca del problema", href="/about")), ),
                 ], no_gutters=True)],
                 color="dark",
                 dark=True,
@@ -47,10 +48,10 @@ server = app.server
 def display_page(pathname):
     if pathname == '/models':
         return models_layout
-    elif pathname == '/about':
-        return html.Div('Contenido de acerca')
-    elif pathname == '/reference':
-        return html.Div('Contenido de referencias')
+    # elif pathname == '/about':
+    #     return html.Div('Contenido de acerca')
+    elif pathname == '/team65':
+        return team65_layout
     elif (pathname == '/') or (pathname == '/eda'):
         return eda_layout
     else:
