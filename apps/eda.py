@@ -114,16 +114,33 @@ delito_tab = html.Div([
         # Espacio para el gráfico
         dbc.Col([
             html.Div(className='div-line'),
-            html.Img(src=app.get_asset_url('plot_test.png'), )
+            html.Embed(src=app.get_asset_url('chord1_2.html'),
+                    height=900, width=900, id='chordplot')
         ], width={'size': 8}, className='page_content'),
         dbc.Col([
             html.H3(["Movimiento a través de diferentes delitos"]),
-            html.P(["""
-                Using the top 20 of the crimes in the dataset that was given to the team during the process, 
-                the team decided to plot the evolution of the recidivism, from the previous analysis we could 
-                see that the majority of the prisoners stayed in HURTO during their evolution of crimes in recidivism. 
-                Mostly due to the fact that HURTO is one of the felonies with lower punishment, meaning that 
-                prisoners can pay their penalty and could fall over again.
+            html.H6('Seleccione el movimiento de reincidencias'),
+            dcc.Dropdown(
+                options=[
+                    {'label': 'Primera a segunda', 'value': '1_2'},
+                    {'label': 'Segunda a tercera', 'value': '2_3'},
+                    {'label': 'Tercera a cuarta', 'value': '3_4'},
+                    {'label': 'Cuarta a quinta', 'value': '4_5'},
+                    {'label': 'Quinta a sexta', 'value': '5_6'},
+                ],
+                value='1_2',
+                id='dd-chordplot'
+            ),
+            html.Br(),
+            dcc.Markdown(["""
+                La gráfica de cuerdas de la izquierda representa la evolución de la reincidencia individual. Cada cuerda 
+                representa a un interno, y su tránsito de un delito a otro, de una reincidencia a la siguiente.
+
+                Usando los 20 delitos más comunes dentro del dataset, el equipo de trabajo decidió graficar la evolución
+                de la reincidencia individual. Del análisis previo se puede ver que la mayoría de los reincidentes 
+                permanecieron reincidiendo en hurto durante toda su evolución de delitos. Esto puede ser debido al hecho
+                de que hurto es uno de los delitos con el menor castigo, significando que los reincidentes pueden
+                pagar su condena y volver a delinquir.
             """])
         ], width={'size': 4}, className='aside-element', align='center')
     ]),
@@ -281,8 +298,8 @@ eda_layout = html.Div([
             dbc.Tabs([
                 dbc.Tab([delito_tab], label="Por delito", tab_id='delito'),
                 dbc.Tab([edad_tab], label="Por edad", tab_id='edad'),
-                dbc.Tab(label="Por educación", tab_id='educacion'),
-                dbc.Tab(label="Por establecimiento carcelario", tab_id='establecimiento'),
+                # dbc.Tab(label="Por educación", tab_id='educacion'),
+                # dbc.Tab(label="Por establecimiento carcelario", tab_id='establecimiento'),
                 dbc.Tab([location_tab], label="Por lugar de origen", tab_id='lugar'),
             ], id='tabs-eda', active_tab='delito')
         ], width={'size': 12})
@@ -324,3 +341,9 @@ def kde_edad(reincidencia):
     [Input('dd-edad-bin', 'value')])
 def kde_edad_bin(column):
     return graphs.age_kde_binary(data, column)
+
+
+@app.callback(Output('chordplot', 'src'),
+    [Input('dd-chordplot', 'value')])
+def chordplot(value):
+    return app.get_asset_url(f'chord{value}.html')

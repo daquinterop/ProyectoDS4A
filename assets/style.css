@@ -26,9 +26,8 @@ div .background {
 }
 
 div .interactive_container {
-    margin: 10px 0px 30px 0px;
-    border-bottom: 2px solid rgb(132,132,132);
-    padding-bottom: 40px;
+    margin: 10px 0px 10px 0px;
+    padding-bottom: 10px;
 }
 
 div .upload_files {

@@ -14,7 +14,7 @@ df = pd.DataFrame(
     },
 )
 
-data = pd.read_pickle('/home/diego/Documents/DS4A/Proyecto/DataFrame_4.pkl')
+data = pd.read_pickle('DataFrame_4.pkl')
 
 with open('dptos_colombia.json') as json_file:
     colombia_dptos_geo = json.load(json_file)
