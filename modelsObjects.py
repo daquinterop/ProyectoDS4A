@@ -54,7 +54,7 @@ class kModes:
             html.Div(className='div-line'),
             html.H3('Resultados'),
             dcc.Markdown('''
-                Según la estructura de los datos, se determinó que lo óptimo es definir seis clusters. Las carácterísticas de cada
+                Según la estructura de los datos, se determinó que lo óptimo es definir tres clusters. Las carácterísticas de cada
                 cluster definido se encuentran en los desplegables bajo la gráfica.
             ''')
 
@@ -64,19 +64,19 @@ class kModes:
             html.Div([
                 html.H3('Clasificación propuesta utilizando K-Modes'),
                 html.Embed(
-                    src=app.get_asset_url('clustering.html'),
+                    src=app.get_asset_url('kmodes.html'),
                     height=900, width=900
                 ),
             ],),
             html.Div([
-                html.H3(['Se identificaron los siguientes seis clusters con las siguientes características:']),
+                html.H3(['Se identificaron los siguientes tres clusters con las siguientes características:']),
                 html.Div([
                     make_item(
                         0, 
                         dcc.Markdown("""
                         Los individuos del Cluster 0 comparten las siguientes características:
 
-                        * Entre 28 y 32 años de edad
+                        * Entre 28 y 30 años de edad
                         * Completaron la primaria
                         * Realizaron actividades (educación, trabajo o enseñanza) durante la reclusión
                         * En estado intramuros al momento del ingreso
@@ -93,7 +93,7 @@ class kModes:
                         dcc.Markdown("""
                         Los individuos del Cluster 1 comparten las siguientes características:
 
-                        * Entre 35 y 36 años de edad
+                        * Entre 31 y 35 años de edad
                         * Completaron la primaria
                         * Realizaron actividades (educación, trabajo o enseñanza) durante la reclusión
                         * En estado intramuros al momento del ingreso
@@ -110,69 +110,18 @@ class kModes:
                         dcc.Markdown("""
                         Los individuos del Cluster 2 comparten las siguientes características:
 
-                        * Entre 33 y 37 años de edad
+                        * Entre 33 y 36 años de edad
                         * Completaron la primaria
                         * Realizaron actividades (educación, trabajo o enseñanza) durante la reclusión
                         * En estado intramuros al momento del ingreso
                         * Tienen hijos menores
                         * Han reincidido solo una vez
                         * La fabricación, tráfico y porte de armas de fuego o municiones es el delito que más cometen
-                        * Han cometido dos delitos
+                        * Han cometido un delito
                         * Los delitos contra la seguridad pública son los que más cometen
                         * En una escala de donde 1 es el delito menos grave, y 5 el más grave, la máxima gravedad es 5
                         """)
                     ),
-                    make_item(
-                        3,
-                        dcc.Markdown("""
-                        Los individuos del Cluster 3 comparten las siguientes características:
-
-                        * Entre 28 y 30 años de edad
-                        * Completaron la primaria
-                        * Realizaron actividades (educación, trabajo o enseñanza) durante la reclusión
-                        * En estado intramuros al momento del ingreso
-                        * Tienen hijos menores
-                        * Han reincidido dos veces
-                        * El hurto es el delito que más cometen
-                        * Han cometido dos delitos
-                        * Los delitos contra el patrimonio económico son los que más cometen.
-                        * En una escala de donde 1 es el delito menos grave, y 5 el más grave, la máxima gravedad es 2
-                        """)
-                    ),
-                    make_item(
-                        4,
-                        dcc.Markdown("""
-                        Los individuos del Cluster 4 comparten las siguientes características:
-
-                        * Entre 28 y 38 años de edad
-                        * Completaron la primaria
-                        * No realizaron actividades (educación, trabajo o enseñanza) durante la reclusión
-                        * En estado prisión domiciliaria al momento del ingreso
-                        * Tienen hijos menores
-                        * Han reincidido una vez
-                        * La fabricación, tráfico y porte de armas de fuego o municiones es el delito que más cometen
-                        * Han cometido un delito
-                        * Los delitos contra el patrimonio económico son los que más cometen.
-                        * En una escala de donde 1 es el delito menos grave, y 5 el más grave, la máxima gravedad es 5
-                        """)
-                    ),
-                    make_item(
-                        5,
-                        dcc.Markdown("""
-                        Los individuos del Cluster 5 comparten las siguientes características:
-
-                        * Entre 32 y 37 años de edad
-                        * Completaron la primaria
-                        * Sí realizaron actividades (educación, trabajo o enseñanza) durante la reclusión
-                        * En estado intramuros al momento del ingreso
-                        * Tienen hijos menores
-                        * Han reincidido una vez
-                        * El homicidio es el delito que más cometen
-                        * Han cometido un delito
-                        * Los delitos contra la seguridad pública.
-                        * En una escala de donde 1 es el delito menos grave, y 5 el más grave, la máxima gravedad es 5
-                        """)
-                    )
                 ], className="accordion")
             ], className='content_box', style={'text-align': 'left'})
         ])

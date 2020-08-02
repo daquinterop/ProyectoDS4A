@@ -101,31 +101,25 @@ def switch_tab(at):
 
 # Para los desplegables donde se describen los grupos 
 @app.callback(
-    [Output(f"collapse-{i}", "is_open") for i in range(0, 6)],
-    [Input(f"group-{i}-toggle", "n_clicks") for i in range(0, 6)],
-    [State(f"collapse-{i}", "is_open") for i in range(0, 6)],
+    [Output(f"collapse-{i}", "is_open") for i in range(0, 3)],
+    [Input(f"group-{i}-toggle", "n_clicks") for i in range(0, 3)],
+    [State(f"collapse-{i}", "is_open") for i in range(0, 3)],
 )
-def toggle_accordion(n1, n2, n3, n4, n5, n6,  is_open1, is_open2, is_open3, is_open4, is_open5, is_open6):
+def toggle_accordion(n1, n2, n3, is_open1, is_open2, is_open3):
     ctx = dash.callback_context
 
     if not ctx.triggered:
-        return False, False, False, False, False, False
+        return False, False, False
     else:
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
     if button_id == "group-0-toggle" and n1:
-        return not is_open1, False, False, False, False, False
+        return not is_open1, False, False
     elif button_id == "group-1-toggle" and n2:
-        return False, not is_open2, False, False, False, False
+        return False, not is_open2, False
     elif button_id == "group-2-toggle" and n3:
-        return False, False, not is_open3, False, False, False
-    elif button_id == "group-3-toggle" and n4:
-        return False, False, False, not is_open4, False, False
-    elif button_id == "group-4-toggle" and n5:
-        return False, False, False, False, not is_open5, False
-    elif button_id == "group-5-toggle" and n6:
-        return False, False, False, False, False, not is_open6   
-    return False, False, False, False, False, False
+        return False, False, not is_open3
+    return False, False, False
 
 
 def parse_contents(contents, filename, date, model, predict_model):
