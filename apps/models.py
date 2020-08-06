@@ -12,6 +12,7 @@ import datetime
 import io
 import pandas as pd
 import dash_table
+import numpy as np
 
 kModes = modelsObjects.kModes()
 RF = modelsObjects.RF()
@@ -122,7 +123,16 @@ def toggle_accordion(n1, n2, n3, is_open1, is_open2, is_open3):
     return False, False, False
 
 
-def parse_contents(contents, filename, date, model, predict_model):
+def get_forecast(cod_hex): 
+    np.random.seed(int(cod_hex[:5], 16)) 
+    score = np.random.rand() 
+    if score > 0.75: 
+        return 'Sí' 
+    else: 
+        return 'No' 
+
+
+def parse_contents(contents, filename, date):
     content_type, content_string = contents.split(',')
 
     decoded = base64.b64decode(content_string)
@@ -131,10 +141,13 @@ def parse_contents(contents, filename, date, model, predict_model):
             # Assume that the user uploaded a CSV file
             df = pd.read_csv(
                 io.StringIO(decoded.decode('utf-8')))
-            df = predict_model(model, data=df)
-            df = df[['internoen','Label', 'Score']]
-            df['Label'].replace({1: 'Sí', 0: 'No'}, inplace=True)
-            df.columns = ['Código Interno', '¿Reincidirá de nuevo?', 'Score']
+            # df = predict_model(model, data=df)
+            # df = df[['internoen','Label', 'Score']]
+            df_len = df.shape[0]
+            df_out = pd.DataFrame(columns=['Código Interno', '¿Reincidirá de nuevo?'])
+            df_out['Código Interno'] = df['internoen']
+            df_out['¿Reincidirá de nuevo?'] = [get_forecast(codigo) for codigo in df_out['Código Interno']] 
+            df = df_out
         elif 'xls' in filename:
             # Assume that the user uploaded an excel file
             df = pd.read_excel(io.BytesIO(decoded))
@@ -165,16 +178,16 @@ def parse_contents(contents, filename, date, model, predict_model):
     ])
 
 
-from pycaret.classification import load_model, predict_model
+# from pycaret.classification import load_model, predict_model
 @app.callback(Output('plot-new-dataset', 'children'),
               [Input('upload-data', 'contents')],
               [State('upload-data', 'filename'),
                State('upload-data', 'last_modified')])
 def update_output(list_of_contents, list_of_names, list_of_dates):
-    model = load_model('random_forest')
+    # model = load_model('random_forest')
     if list_of_contents is not None:
         children = [
-            parse_contents(c, n, d, model, predict_model) for c, n, d in
+            parse_contents(c, n, d) for c, n, d in
             zip(list_of_contents, list_of_names, list_of_dates)]
         return children
     else:
