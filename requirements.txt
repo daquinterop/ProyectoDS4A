@@ -134,7 +134,7 @@ py==1.9.0
 pycaret==2.0
 pycparser==2.20
 pyct==0.4.6
-Pygments==2.6.1
+Pygments==2.7.4
 pyLDAvis==2.1.2
 pylint==2.5.3
 pyod==0.8.1
