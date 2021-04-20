@@ -130,7 +130,7 @@ prompt-toolkit==3.0.5
 protobuf==3.12.4
 psutil==5.7.2
 ptyprocess==0.6.0
-py==1.9.0
+py==1.10.0
 pycaret==2.0
 pycparser==2.20
 pyct==0.4.6
