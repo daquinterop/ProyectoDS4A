@@ -92,7 +92,7 @@ matplotlib==3.3.0
 mccabe==0.6.1
 missingno==0.4.2
 mistune==0.8.4
-mlflow==1.10.0
+mlflow==2.6.0
 mlxtend==0.17.3
 more-itertools==8.4.0
 msgpack==1.0.0
