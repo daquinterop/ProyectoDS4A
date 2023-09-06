@@ -50,7 +50,7 @@ funcy==1.14
 future==0.18.2
 gensim==3.8.3
 gitdb==4.0.5
-GitPython==3.1.7
+GitPython==3.1.34
 gorilla==0.3.0
 graphviz==0.14.1
 gunicorn==20.0.4
