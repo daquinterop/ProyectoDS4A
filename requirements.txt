@@ -189,7 +189,7 @@ wasabi==0.7.1
 wcwidth==0.2.5
 webencodings==0.5.1
 websocket-client==0.57.0
-Werkzeug==1.0.1
+Werkzeug==3.0.1
 widgetsnbextension==3.5.1
 wordcloud==1.7.0
 wrapt==1.12.1
